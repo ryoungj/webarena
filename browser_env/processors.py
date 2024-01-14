@@ -602,8 +602,16 @@ class TextObervationProcessor(ObservationProcessor):
         try:
             browser_info = self.fetch_browser_info(page, client)
         except Exception:
-            page.wait_for_load_state("load", timeout=500)
-            browser_info = self.fetch_browser_info(page, client)
+            # try 3 times with increasing timeout
+            timeout = 500
+            for _ in range(3):
+                try:
+                    page.wait_for_load_state("load", timeout=timeout)
+                    browser_info = self.fetch_browser_info(page, client)
+                    break
+                except Exception as e:
+                    timeout *= 4
+                    continue
 
         if self.observation_type == "html":
             dom_tree = self.fetch_page_html(
