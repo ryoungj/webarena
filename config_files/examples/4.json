@@ -1,18 +1,22 @@
 {
-    "sites": ["reddit"],
+    "sites": [
+        "reddit"
+    ],
     "task_id": 4,
     "require_login": true,
     "storage_state": "./.auth/reddit_state.json",
-    "start_url": "http://metis.lti.cs.cmu.edu:9999/",
+    "start_url": "http://john2:9999/",
     "geolocation": null,
     "intent_template": "list all subreddits in alphabetical order",
     "instantiation_dict": {},
     "intent": "list all subreddits in alphabetical order",
     "require_reset": false,
     "eval": {
-        "eval_types": ["url_match"],
+        "eval_types": [
+            "url_match"
+        ],
         "reference_answers": null,
-        "reference_url": "http://metis.lti.cs.cmu.edu:9999/forums/all",
+        "reference_url": "http://john2:9999/forums/all",
         "program_html": [
             {
                 "url": "",

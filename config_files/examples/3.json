@@ -1,5 +1,7 @@
 {
-    "sites": ["misc"],
+    "sites": [
+        "misc"
+    ],
     "task_id": 3,
     "require_login": false,
     "storage_state": null,
@@ -10,8 +12,15 @@
     "intent": "Tell me who provide a collection of concise, detailed information for mammal classification in 2005",
     "require_reset": false,
     "eval": {
-        "eval_types": ["string_match"],
-        "reference_answers": ["Wilson and Reader"],
+        "eval_types": [
+            "string_match"
+        ],
+        "reference_answers": {
+            "must_include": [
+                "Wilson",
+                "Reader"
+            ]
+        },
         "reference_url": "",
         "program_html": [
             {
