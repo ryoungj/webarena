@@ -1094,6 +1094,21 @@ async def aexecute_playwright_check(
     # perform the action
     await locator.check()
 
+def scroll_to_viewport(
+        element_id: str, page: Page, obseration_processor: ObservationProcessor
+    ) -> tuple[float, float]:
+    element_center = obseration_processor.get_element_center(element_id)  # type: ignore[attr-defined]
+    x, y = element_center[0], element_center[1]
+
+    while y > 1:
+        execute_scroll("down", page)
+        y -= 1
+
+    while y < 0:
+        execute_scroll("up", page)
+        y += 1
+
+    return x, y
 
 def execute_action(
     action: Action,
@@ -1126,7 +1141,8 @@ def execute_action(
             # TODO[shuyanzh]: order is temp now
             if action["element_id"]:
                 element_id = action["element_id"]
-                element_center = obseration_processor.get_element_center(element_id)  # type: ignore[attr-defined]
+                element_center = scroll_to_viewport(element_id, page, obseration_processor)
+                # element_center = obseration_processor.get_element_center(element_id)  # type: ignore[attr-defined]
                 execute_mouse_click(element_center[0], element_center[1], page)
             elif action["element_role"] and action["element_name"]:
                 element_role = int(action["element_role"])
@@ -1144,7 +1160,8 @@ def execute_action(
         case ActionTypes.HOVER:
             if action["element_id"]:
                 element_id = action["element_id"]
-                element_center = obseration_processor.get_element_center(element_id)  # type: ignore[attr-defined]
+                element_center = scroll_to_viewport(element_id, page, obseration_processor)
+                # element_center = obseration_processor.get_element_center(element_id)  # type: ignore[attr-defined]
                 execute_mouse_hover(element_center[0], element_center[1], page)
             elif action["element_role"] and action["element_name"]:
                 element_role = int(action["element_role"])
@@ -1163,7 +1180,8 @@ def execute_action(
         case ActionTypes.TYPE:
             if action["element_id"]:
                 element_id = action["element_id"]
-                element_center = obseration_processor.get_element_center(element_id)  # type: ignore[attr-defined]
+                element_center = scroll_to_viewport(element_id, page, obseration_processor)
+                # element_center = obseration_processor.get_element_center(element_id)  # type: ignore[attr-defined]
                 execute_mouse_click(element_center[0], element_center[1], page)
                 execute_type(action["text"], page)
             elif action["element_role"] and action["element_name"]:
